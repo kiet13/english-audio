@@ -1,8 +1,17 @@
 <html>
     <title>English vocabulary audio</title>
-    <form>
+    <form action='/audio'>
         <label for="word">English word:</label><br>
-        <input type="text" id="word" name="fname", placeholder="Search"><br>
+        <input type="text" id="word" name="word", placeholder="Search"><br>
         <input type="submit" value="Search">
+    
     </form> 
+
+    {% if audio %}
+    <script src="/static/js/download.js">
+    </script>
+    <script>
+        downloadResource('https://d27ucmmhxk51xv.cloudfront.net/media/english/ameProns/apple1.mp3?version=1.2.7', 'apple.mp3');
+    </script>
+    {% endif %}
 </html>
