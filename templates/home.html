@@ -1,17 +1,29 @@
 <html>
-    <title>English vocabulary audio</title>
-    <form action='/audio'>
-        <label for="word">English word:</label><br>
-        <input type="text" id="word" name="word", placeholder="Search"><br>
-        <input type="submit" value="Search">
+    <head>
+        <title>English vocabulary audio</title>
+    </head>
     
-    </form> 
-
-    {% if audio %}
-    <script src="/static/js/download.js">
-    </script>
-    <script>
-        downloadResource('https://d27ucmmhxk51xv.cloudfront.net/media/english/ameProns/apple1.mp3?version=1.2.7', 'apple.mp3');
-    </script>
-    {% endif %}
+    <body>
+        <form action='/audio'>
+            <label for="word">English word:</label><br>
+            <input type="text" id="word" name="word" autofocus="autofocus" placeholder="Search"><br>
+            <input type="submit" id="submit" value="Search">
+        
+        </form> 
+    
+        {% if audio %}
+            <script type="text/javascript" src="/static/js/download.js">
+            </script>
+            <script>
+                var audio_url = "{{audio}}";
+                var filename = "{{word}}".concat(".mp3");
+                downloadResource(audio_url, filename);
+            </script>
+        {% else %}
+            <p>"{{word}}" does not exist!</p>
+            <script>console.log("{{audio}}")</script>
+        <!-- <a href={{audio}} download="{{word}}.mp3">Download audio</a> -->
+        {% endif %}
+    </body>
+   
 </html>

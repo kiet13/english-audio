@@ -2,18 +2,14 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def crawl_word_audio_url(word, url='https://www.ldoceonline.com/'):
-    req = requests.get(url + '/dictionary/' + word)
-    soup = BeautifulSoup(req.text, "html.parser")
-    spans = soup.find_all('span', attrs={'class':'speaker amefile fas fa-volume-up hideOnAmp'})
-    
-    audio_url = None
-    if len(spans) > 0:
-        audio_url = spans[0]['data-src-mp3']
 
+def crawl_word_audio_url(word, url='https://www.dictionary.com'):
+    req = requests.get(url + '/browse/' + word)
+    soup = BeautifulSoup(req.text, "html.parser")
+    audio_tag = soup.find('audio')
+    audio_url = audio_tag.find("source", {"type":"audio/mpeg"}).get("src")
     return audio_url
 
-def download_audio(audio_url):
-    audio = requests.get(audio_url)
-    with open('movie.mp3', 'wb') as f:
-        f.write(audio.content)
+if __name__ == "__main__":
+    audio_url = crawl_word_audio_url("apple")
+    print(audio_url)
