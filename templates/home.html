@@ -1,29 +1,63 @@
-<html>
-    <head>
-        <title>English vocabulary audio</title>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/file-audio-regular.svg') }}" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/85bdfc944a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+    <title>Vocabulary audio</title>
+</head>
+<body>
     
-    <body>
-        <form action='/audio'>
-            <label for="word">English word:</label><br>
-            <input type="text" id="word" name="word" autofocus="autofocus" placeholder="Search"><br>
-            <input type="submit" id="submit" value="Search">
-        
-        </form> 
-    
-        {% if audio %}
-            <script type="text/javascript" src="/static/js/download.js">
-            </script>
-            <script>
-                var audio_url = "{{audio}}";
-                var filename = "{{word}}".concat(".mp3");
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="logo">
+                <img src="../static/img/google_logo.png" alt="">
+                <span>Audio</span>
+            </div>
+            
+            <div class="search-bar">
+                <div class="search-bar-content">
+                    <div class="upload">
+                        <p>Text</p>
+                        <i class="fas fa-times" onclick="removeFileUpload()"></i>
+                    </div>
+                    <form id="form" enctype="multipart/form-data" action='/audio' method="POST">
+                        <input type="text" id="search" name="search" autofocus="autofocus" onkeyup="showRemoveButton()">
+                        <input type="submit" id="submit" value="Search">
+                    </form>
+                </div>
+                <ul>
+                    <li id="btnRemove" onclick="removeInput()"><a href="#"><i class="fas fa-times"></i></a></li>
+                    <li><a href="#" onclick="createUploadButton()"><i class="fas fa-paperclip"></i></a></li>
+                    <li><a href="#" onclick="submitWord()"><i class="fas fa-search"></i></a></li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+
+    {% if audio %}
+        <!-- <script type="text/javascript" src="/static/js/download.js">
+        </script> -->
+        <script>
+            let audio_url = "{{audio}}";
+            let filename = "{{word}}".concat(".mp3");
+            if (audio_url.length > 0) {
                 downloadResource(audio_url, filename);
-            </script>
-        {% else %}
-            <p>"{{word}}" does not exist!</p>
-            <script>console.log("{{audio}}")</script>
-        <!-- <a href={{audio}} download="{{word}}.mp3">Download audio</a> -->
-        {% endif %}
-    </body>
-   
+            }
+            else {
+                alert("\"{{word}}\" not found!");
+            }
+        </script>
+    {% endif %}
+    
+</body>
 </html>
